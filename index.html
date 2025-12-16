@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Professionele elektricien in Rotterdam. Vakkundige elektrische installaties, reparaties en spoedservice.">
+    <title id="pageTitle">Voltwerk - Professionele Elektricien Rotterdam</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #1e3c72;
+            --secondary-color: #2a5298;
+            --accent-color: #ffd700;
+            --text-dark: #333;
+            --text-light: #666;
+            --bg-light: #f8f9fa;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+        }
+
+        /* Header & Navigation */
+        header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo::before {
+            content: "⚡";
+            font-size: 2rem;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s;
+            font-weight: 500;
+        }
+
+        nav a:hover {
+            opacity: 0.8;
+        }
+
+        .mobile-menu {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 150px 2rem 100px;
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            animation: fadeInUp 1s 0.2s backwards;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: var(--accent-color);
+            color: var(--primary-color);
+            padding: 1rem 2.5rem;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+            animation: fadeInUp 1s 0.4s backwards;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.3);
+        }
+
+        /* Services Section */
+        .services {
+            padding: 80px 2rem;
+            background: var(--bg-light);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: var(--primary-color);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .service-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-align: center;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .service-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .service-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .service-card p {
+            color: var(--text-light);
+            line-height: 1.8;
+        }
+
+        /* About Section */
+        .about {
+            padding: 80px 2rem;
+            background: white;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .about-text h2 {
+            text-align: left;
+            margin-bottom: 1.5rem;
+        }
+
+        .about-text p {
+            margin-bottom: 1rem;
+            line-height: 1.8;
+            color: var(--text-light);
+        }
+
+        .about-features {
+            list-style: none;
+            margin-top: 2rem;
+        }
+
+        .about-features li {
+            padding: 0.8rem 0;
+            padding-left: 2rem;
+            position: relative;
+            color: var(--text-dark);
+        }
+
+        .about-features li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--accent-color);
+            font-weight: bold;
+            font-size: 1.3rem;
+        }
+
+        .about-image {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            border-radius: 15px;
+            padding: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 8rem;
+            color: rgba(255, 255, 255, 0.1);
+            min-height: 400px;
+        }
+
+        /* Projects Section */
+        .projects {
+            padding: 80px 2rem;
+            background: var(--bg-light);
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .project-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .project-image {
+            height: 200px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: white;
+        }
+
+        .project-info {
+            padding: 1.5rem;
+        }
+
+        .project-info h3 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .project-info p {
+            color: var(--text-light);
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 80px 2rem;
+            background: white;
+        }
+
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .contact-icon {
+            font-size: 2rem;
+            color: var(--primary-color);
+            min-width: 40px;
+        }
+
+        .contact-item strong {
+            display: block;
+            margin-bottom: 0.3rem;
+            color: var(--text-dark);
+        }
+
+        .contact-item span {
+            color: var(--text-light);
+        }
+
+        .contact-form-container {
+            background: var(--bg-light);
+            padding: 2rem;
+            border-radius: 15px;
+        }
+
+        .contact-form-container h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        footer p {
+            opacity: 0.9;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .about-content,
+            .contact-content {
+                grid-template-columns: 1fr;
+            }
+
+            .about-image {
+                height: 250px;
+                font-size: 5rem;
+            }
+
+            h2 {
+                font-size: 2rem;
+            }
+
+            .services-grid,
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero {
+                padding: 120px 1rem 80px;
+            }
+
+            .cta-button {
+                padding: 0.8rem 2rem;
+                font-size: 1rem;
+            }
+
+            .service-card,
+            .project-card {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <div class="logo" id="logoDisplay">Voltwerk</div>
+            <ul id="navMenu">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#diensten">Diensten</a></li>
+                <li><a href="#over">Over Ons</a></li>
+                <li><a href="#projecten">Projecten</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="mobile-menu" onclick="toggleMenu()">☰</div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <h1 id="heroTitle">Uw Betrouwbare Elektricien in Rotterdam</h1>
+        <p id="heroSubtitle">Professionele elektriciteitswerken voor particulieren en bedrijven</p>
+        <a href="#contact" class="cta-button" id="heroButton">Gratis Offerte Aanvragen</a>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services" id="diensten">
+        <div class="container">
+            <h2>Onze Diensten</h2>
+            <div class="services-grid" id="servicesGrid">
+                <!-- Services will be loaded by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="over">
+        <div class="about-content">
+            <div class="about-text">
+                <h2 id="aboutTitle">Waarom Kiezen Voor Voltwerk?</h2>
+                <p id="aboutText1">Met meer dan 15 jaar ervaring in de elektrotechniek zijn wij uw betrouwbare partner voor alle elektrische werkzaamheden. Ons team van gecertificeerde elektriciens staat garant voor kwaliteit en veiligheid.</p>
+                <p id="aboutText2">Of het nu gaat om een kleine reparatie of een complete installatie, wij werken altijd netjes, volgens afspraak en voor een eerlijke prijs.</p>
+                <ul class="about-features" id="aboutFeatures">
+                    <!-- Features will be loaded by JavaScript -->
+                </ul>
+            </div>
+            <div class="about-image">⚡</div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="projects" id="projecten">
+        <div class="container">
+            <h2>Recente Projecten</h2>
+            <div class="projects-grid" id="projectsGrid">
+                <!-- Projects will be loaded by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <h2>Neem Contact Op</h2>
+            <div class="contact-content">
+                <div class="contact-info" id="contactInfo">
+                    <!-- Contact info will be loaded by JavaScript -->
+                </div>
+                <div class="contact-form-container">
+                    <h3>Stuur ons een bericht</h3>
+                    <p>Neem gerust contact met ons op voor een vrijblijvende offerte of advies op maat.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p id="footerText">&copy; 2024 Voltwerk - Professionele Elektricien Rotterdam</p>
+    </footer>
+
+    <script>
+        // Load content from localStorage or use defaults
+        function loadContent() {
+            // Default content
+            const defaults = {
+                bedrijfsnaam: 'Voltwerk',
+                heroTitle: 'Uw Betrouwbare Elektricien in Rotterdam',
+                heroSubtitle: 'Professionele elektriciteitswerken voor particulieren en bedrijven',
+                heroButton: 'Gratis Offerte Aanvragen',
+                primaryColor: '#1e3c72',
+                accentColor: '#ffd700',
+                phone: '010 - 123 45 67',
+                email: 'info@voltwerk.nl',
+                address: 'Voorbeeldstraat 123, 3012 AB Rotterdam',
+                openingHours: 'Ma-Vr: 08:00 - 18:00<br>24/7 spoedhulp beschikbaar',
+                aboutTitle: 'Waarom Kiezen Voor Voltwerk?',
+                aboutText1: 'Met meer dan 15 jaar ervaring in de elektrotechniek zijn wij uw betrouwbare partner voor alle elektrische werkzaamheden. Ons team van gecertificeerde elektriciens staat garant voor kwaliteit en veiligheid.',
+                aboutText2: 'Of het nu gaat om een kleine reparatie of een complete installatie, wij werken altijd netjes, volgens afspraak en voor een eerlijke prijs.',
+                services: [
+                    {
+                        icon: '🔌',
+                        title: 'Elektrische Installaties',
+                        description: 'Complete elektrische installaties voor nieuwbouw en renovaties. Veilig en volgens de nieuwste normen.'
+                    },
+                    {
+                        icon: '💡',
+                        title: 'Verlichting',
+                        description: 'Van LED spotjes tot complete verlichtingsplannen. We zorgen voor de perfecte sfeer in uw woning.'
+                    },
+                    {
+                        icon: '⚡',
+                        title: 'Storingen & Reparaties',
+                        description: 'Snelle hulp bij elektrische storingen. 24/7 bereikbaar voor spoedreparaties.'
+                    },
+                    {
+                        icon: '🏠',
+                        title: 'Domotica',
+                        description: 'Maak uw huis slim met moderne domotica oplossingen. Bedien alles vanaf uw smartphone.'
+                    },
+                    {
+                        icon: '🔋',
+                        title: 'Laadpalen',
+                        description: 'Installatie van laadpalen voor elektrische auto\'s. Thuis laden op de voordeligste manier.'
+                    },
+                    {
+                        icon: '🔍',
+                        title: 'Keuringen & Inspecties',
+                        description: 'NEN1010 keuringen en periodieke inspecties. Blijf conform de wet- en regelgeving.'
+                    }
+                ],
+                features: [
+                    'Gecertificeerde en ervaren elektriciens',
+                    '24/7 bereikbaar voor spoedgevallen',
+                    'Transparante prijzen, geen verborgen kosten',
+                    'Netjes en volgens afspraak',
+                    'Garantie op al onze werkzaamheden',
+                    'Gratis advies en offerte op maat'
+                ],
+                projects: [
+                    {
+                        icon: '🏢',
+                        title: 'Kantoorpand Rotterdam',
+                        description: 'Complete elektrische installatie van een modern kantoorpand inclusief domotica en noodverlichting.'
+                    },
+                    {
+                        icon: '🏡',
+                        title: 'Woning Renovatie',
+                        description: 'Volledige elektrische renovatie van een jaren \'30 woning, inclusief nieuwe meterkast en groepen.'
+                    },
+                    {
+                        icon: '🔌',
+                        title: 'Laadpaal Installaties',
+                        description: 'Diverse laadpalen geïnstalleerd voor particulieren en bedrijven in de regio Rotterdam.'
+                    }
+                ]
+            };
+
+            // Get content from localStorage or use defaults
+            const content = {};
+            Object.keys(defaults).forEach(key => {
+                const stored = localStorage.getItem(key);
+                if (stored && key !== 'services' && key !== 'features' && key !== 'projects') {
+                    content[key] = stored;
+                } else if (stored && (key === 'services' || key === 'features' || key === 'projects')) {
+                    try {
+                        content[key] = JSON.parse(stored);
+                    } catch (e) {
+                        content[key] = defaults[key];
+                    }
+                } else {
+                    content[key] = defaults[key];
+                }
+            });
+
+            // Apply content to page
+            document.getElementById('logoDisplay').textContent = content.bedrijfsnaam;
+            document.getElementById('heroTitle').textContent = content.heroTitle;
+            document.getElementById('heroSubtitle').textContent = content.heroSubtitle;
+            document.getElementById('heroButton').textContent = content.heroButton;
+            document.getElementById('aboutTitle').textContent = content.aboutTitle;
+            document.getElementById('aboutText1').textContent = content.aboutText1;
+            document.getElementById('aboutText2').textContent = content.aboutText2;
+            document.getElementById('footerText').innerHTML = `&copy; 2024 ${content.bedrijfsnaam} - Professionele Elektricien`;
+            document.getElementById('pageTitle').textContent = `${content.bedrijfsnaam} - Professionele Elektricien`;
+
+            // Apply colors
+            document.documentElement.style.setProperty('--primary-color', content.primaryColor);
+            document.documentElement.style.setProperty('--accent-color', content.accentColor);
+
+            // Load services
+            const servicesGrid = document.getElementById('servicesGrid');
+            servicesGrid.innerHTML = content.services.map(service => `
+                <div class="service-card">
+                    <div class="service-icon">${service.icon}</div>
+                    <h3>${service.title}</h3>
+                    <p>${service.description}</p>
+                </div>
+            `).join('');
+
+            // Load features
+            const featuresUl = document.getElementById('aboutFeatures');
+            featuresUl.innerHTML = content.features.map(feature => `
+                <li>${feature}</li>
+            `).join('');
+
+            // Load projects
+            const projectsGrid = document.getElementById('projectsGrid');
+            projectsGrid.innerHTML = content.projects.map(project => `
+                <div class="project-card">
+                    <div class="project-image">${project.icon}</div>
+                    <div class="project-info">
+                        <h3>${project.title}</h3>
+                        <p>${project.description}</p>
+                    </div>
+                </div>
+            `).join('');
+
+            // Load contact info
+            const contactInfo = document.getElementById('contactInfo');
+            contactInfo.innerHTML = `
+                <div class="contact-item">
+                    <div class="contact-icon">📞</div>
+                    <div>
+                        <strong>Telefoon</strong>
+                        <span>${content.phone}</span>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">📧</div>
+                    <div>
+                        <strong>Email</strong>
+                        <span>${content.email}</span>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">📍</div>
+                    <div>
+                        <strong>Adres</strong>
+                        <span>${content.address}</span>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">🕒</div>
+                    <div>
+                        <strong>Openingstijden</strong>
+                        <span>${content.openingHours}</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Load content on page load
+        window.addEventListener('DOMContentLoaded', loadContent);
+    </script>
+</body>
+</html>
