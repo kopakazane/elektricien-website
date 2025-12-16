@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Website Editor</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        /* Login Screen */
+        .login-container {
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .login-container h1 {
+            color: #667eea;
+            margin-bottom: 0.5rem;
+            font-size: 2rem;
+        }
+
+        .login-container p {
+            color: #666;
+            margin-bottom: 2rem;
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .login-form input {
+            padding: 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .login-form input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .login-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .error-message {
+            background: #ff4444;
+            color: white;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+            animation: shake 0.5s;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        /* Admin Panel */
+        .admin-container {
+            display: none;
+            max-width: 1400px;
+            width: 100%;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-height: 90vh;
+        }
+
+        .admin-container.active {
+            display: flex;
+        }
+
+        .admin-sidebar {
+            width: 280px;
+            background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        .admin-sidebar h2 {
+            margin-bottom: 0.5rem;
+            font-size: 1.5rem;
+        }
+
+        .admin-sidebar p {
+            opacity: 0.9;
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+        }
+
+        .logout-btn {
+            width: 100%;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            padding: 0.8rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            transition: background 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .section-nav {
+            list-style: none;
+        }
+
+        .section-nav li {
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .section-nav li:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .section-nav li.active {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .admin-content {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        .admin-header {
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .admin-header h1 {
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .admin-header p {
+            color: #666;
+        }
+
+        .form-section {
+            display: none;
+            animation: fadeIn 0.3s;
+        }
+
+        .form-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .color-picker {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .color-picker input[type="color"] {
+            width: 60px;
+            height: 45px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .color-picker input[type="text"] {
+            flex: 1;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .save-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            margin-top: 2rem;
+        }
+
+        .save-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .success-message {
+            background: #28a745;
+            color: white;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-top: 1rem;
+            text-align: center;
+            display: none;
+        }
+
+        .success-message.show {
+            display: block;
+            animation: slideIn 0.3s;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .preview-btn {
+            display: inline-block;
+            background: #28a745;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            text-decoration: none;
+            border-radius: 8px;
+            margin-top: 1rem;
+            transition: background 0.3s;
+        }
+
+        .preview-btn:hover {
+            background: #218838;
+        }
+
+        @media (max-width: 768px) {
+            .admin-container {
+                flex-direction: column;
+                max-height: none;
+            }
+
+            .admin-sidebar {
+                width: 100%;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Screen -->
+    <div class="login-container" id="loginContainer">
+        <h1>🔐 Admin Login</h1>
+        <p>Voer je wachtwoord in om verder te gaan</p>
+        <div class="error-message" id="errorMessage">
+            Onjuist wachtwoord. Probeer opnieuw.
+        </div>
+        <form class="login-form" onsubmit="handleLogin(event)">
+            <input type="password" id="passwordInput" placeholder="Wachtwoord" required>
+            <button type="submit" class="login-btn">Inloggen</button>
+        </form>
+    </div>
+
+    <!-- Admin Panel -->
+    <div class="admin-container" id="adminContainer">
+        <div class="admin-sidebar">
+            <h2>⚡ Website Editor</h2>
+            <p>Beheer je website eenvoudig</p>
+            <button class="logout-btn" onclick="logout()">🚪 Uitloggen</button>
+            
+            <ul class="section-nav">
+                <li onclick="showSection('algemeen')" class="active">🎨 Algemeen</li>
+                <li onclick="showSection('hero')">🚀 Hero Sectie</li>
+                <li onclick="showSection('diensten')">🔌 Diensten</li>
+                <li onclick="showSection('over')">📖 Over Ons</li>
+                <li onclick="showSection('projecten')">🏗️ Projecten</li>
+                <li onclick="showSection('contact')">📞 Contact</li>
+            </ul>
+        </div>
+
+        <div class="admin-content">
+            <div class="admin-header">
+                <h1>Website Beheer</h1>
+                <p>Pas je website aan en bekijk de wijzigingen direct</p>
+                <a href="index.html" target="_blank" class="preview-btn">👁️ Bekijk Website</a>
+            </div>
+
+            <!-- Algemene Instellingen -->
+            <div class="form-section active" id="section-algemeen">
+                <h2>🎨 Algemene Instellingen</h2>
+                <div class="form-group">
+                    <label>Bedrijfsnaam</label>
+                    <input type="text" id="bedrijfsnaam">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Primaire Kleur</label>
+                        <div class="color-picker">
+                            <input type="color" id="primaryColor">
+                            <input type="text" id="primaryColorHex">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Accent Kleur</label>
+                        <div class="color-picker">
+                            <input type="color" id="accentColor">
+                            <input type="text" id="accentColorHex">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hero Sectie -->
+            <div class="form-section" id="section-hero">
+                <h2>🚀 Hero Sectie</h2>
+                <div class="form-group">
+                    <label>Hoofdtitel</label>
+                    <input type="text" id="heroTitle">
+                </div>
+                <div class="form-group">
+                    <label>Ondertitel</label>
+                    <input type="text" id="heroSubtitle">
+                </div>
+                <div class="form-group">
+                    <label>Button Tekst</label>
+                    <input type="text" id="heroButton">
+                </div>
+            </div>
+
+            <!-- Diensten -->
+            <div class="form-section" id="section-diensten">
+                <h2>🔌 Diensten</h2>
+                <p style="color: #666; margin-bottom: 2rem;">Pas de verschillende diensten aan die je aanbiedt</p>
+                
+                <h3 style="margin-top: 2rem; color: #667eea;">Dienst 1</h3>
+                <div class="form-group">
+                    <label>Titel</label>
+                    <input type="text" id="service1Title">
+                </div>
+                <div class="form-group">
+                    <label>Beschrijving</label>
+                    <textarea id="service1Desc"></textarea>
+                </div>
+
+                <h3 style="margin-top: 2rem; color: #667eea;">Dienst 2</h3>
+                <div class="form-group">
+                    <label>Titel</label>
+                    <input type="text" id="service2Title">
+                </div>
+                <div class="form-group">
+                    <label>Beschrijving</label>
+                    <textarea id="service2Desc"></textarea>
+                </div>
+
+                <h3 style="margin-top: 2rem; color: #667eea;">Dienst 3</h3>
+                <div class="form-group">
+                    <label>Titel</label>
+                    <input type="text" id="service3Title">
+                </div>
+                <div class="form-group">
+                    <label>Beschrijving</label>
+                    <textarea id="service3Desc"></textarea>
+                </div>
+            </div>
+
+            <!-- Over Ons -->
+            <div class="form-section" id="section-over">
+                <h2>📖 Over Ons</h2>
+                <div class="form-group">
+                    <label>Sectie Titel</label>
+                    <input type="text" id="aboutTitle">
+                </div>
+                <div class="form-group">
+                    <label>Eerste Alinea</label>
+                    <textarea id="aboutText1"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Tweede Alinea</label>
+                    <textarea id="aboutText2"></textarea>
+                </div>
+            </div>
+
+            <!-- Projecten -->
+            <div class="form-section" id="section-projecten">
+                <h2>🏗️ Projecten</h2>
+                <p style="color: #666; margin-bottom: 2rem;">Laat je recente projecten zien</p>
+                
+                <h3 style="margin-top: 2rem; color: #667eea;">Project 1</h3>
+                <div class="form-group">
+                    <label>Titel</label>
+                    <input type="text" id="project1Title">
+                </div>
+                <div class="form-group">
+                    <label>Beschrijving</label>
+                    <textarea id="project1Desc"></textarea>
+                </div>
+
+                <h3 style="margin-top: 2rem; color: #667eea;">Project 2</h3>
+                <div class="form-group">
+                    <label>Titel</label>
+                    <input type="text" id="project2Title">
+                </div>
+                <div class="form-group">
+                    <label>Beschrijving</label>
+                    <textarea id="project2Desc"></textarea>
+                </div>
+
+                <h3 style="margin-top: 2rem; color: #667eea;">Project 3</h3>
+                <div class="form-group">
+                    <label>Titel</label>
+                    <input type="text" id="project3Title">
+                </div>
+                <div class="form-group">
+                    <label>Beschrijving</label>
+                    <textarea id="project3Desc"></textarea>
+                </div>
+            </div>
+
+            <!-- Contact -->
+            <div class="form-section" id="section-contact">
+                <h2>📞 Contact Informatie</h2>
+                <div class="form-group">
+                    <label>Telefoonnummer</label>
+                    <input type="text" id="phone">
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="email">
+                </div>
+                <div class="form-group">
+                    <label>Adres</label>
+                    <input type="text" id="address">
+                </div>
+                <div class="form-group">
+                    <label>Openingstijden</label>
+                    <textarea id="openingHours"></textarea>
+                </div>
+            </div>
+
+            <button class="save-btn" onclick="saveAllChanges()">💾 Alle Wijzigingen Opslaan</button>
+            <div class="success-message" id="successMessage">
+                ✓ Wijzigingen succesvol opgeslagen! <a href="index.html" target="_blank" style="color: white; text-decoration: underline;">Bekijk website</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // BELANGRIJK: Verander dit wachtwoord!
+        const PASSWORD = 'admin123';
+
+        // Check if logged in
+        if (localStorage.getItem('isLoggedIn') === 'true') {
+            document.getElementById('loginContainer').style.display = 'none';
+            document.getElementById('adminContainer').classList.add('active');
+            loadAllContent();
+        }
+
+        // Handle login
+        function handleLogin(event) {
+            event.preventDefault();
+            const password = document.getElementById('passwordInput').value;
+            
+            if (password === PASSWORD) {
+                localStorage.setItem('isLoggedIn', 'true');
+                document.getElementById('loginContainer').style.display = 'none';
+                document.getElementById('adminContainer').classList.add('active');
+                loadAllContent();
+            } else {
+                document.getElementById('errorMessage').classList.add('show');
+                setTimeout(() => {
+                    document.getElementById('errorMessage').classList.remove('show');
+                }, 3000);
+            }
+        }
+
+        // Logout
+        function logout() {
+            localStorage.removeItem('isLoggedIn');
+            location.reload();
+        }
+
+        // Show section
+        function showSection(section) {
+            document.querySelectorAll('.form-section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.section-nav li').forEach(li => li.classList.remove('active'));
+            
+            document.getElementById('section-' + section).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // Color picker sync
+        function setupColorPickers() {
+            document.getElementById('primaryColor').addEventListener('input', (e) => {
+                document.getElementById('primaryColorHex').value = e.target.value;
+            });
+            
+            document.getElementById('primaryColorHex').addEventListener('input', (e) => {
+                document.getElementById('primaryColor').value = e.target.value;
+            });
+            
+            document.getElementById('accentColor').addEventListener('input', (e) => {
+                document.getElementById('accentColorHex').value = e.target.value;
+            });
+            
+            document.getElementById('accentColorHex').addEventListener('input', (e) => {
+                document.getElementById('accentColor').value = e.target.value;
+            });
+        }
+
+        // Load all content
+        function loadAllContent() {
+            setupColorPickers();
+
+            const defaults = {
+                bedrijfsnaam: 'Voltwerk',
+                primaryColor: '#1e3c72',
+                accentColor: '#ffd700',
+                heroTitle: 'Uw Betrouwbare Elektricien in Rotterdam',
+                heroSubtitle: 'Professionele elektriciteitswerken voor particulieren en bedrijven',
+                heroButton: 'Gratis Offerte Aanvragen',
+                service1Title: 'Elektrische Installaties',
+                service1Desc: 'Complete elektrische installaties voor nieuwbouw en renovaties. Veilig en volgens de nieuwste normen.',
+                service2Title: 'Verlichting',
+                service2Desc: 'Van LED spotjes tot complete verlichtingsplannen. We zorgen voor de perfecte sfeer in uw woning.',
+                service3Title: 'Storingen & Reparaties',
+                service3Desc: 'Snelle hulp bij elektrische storingen. 24/7 bereikbaar voor spoedreparaties.',
+                aboutTitle: 'Waarom Kiezen Voor Voltwerk?',
+                aboutText1: 'Met meer dan 15 jaar ervaring in de elektrotechniek zijn wij uw betrouwbare partner voor alle elektrische werkzaamheden. Ons team van gecertificeerde elektriciens staat garant voor kwaliteit en veiligheid.',
+                aboutText2: 'Of het nu gaat om een kleine reparatie of een complete installatie, wij werken altijd netjes, volgens afspraak en voor een eerlijke prijs.',
+                project1Title: 'Kantoorpand Rotterdam',
+                project1Desc: 'Complete elektrische installatie van een modern kantoorpand inclusief domotica en noodverlichting.',
+                project2Title: 'Woning Renovatie',
+                project2Desc: 'Volledige elektrische renovatie van een jaren \'30 woning, inclusief nieuwe meterkast en groepen.',
+                project3Title: 'Laadpaal Installaties',
+                project3Desc: 'Diverse laadpalen geïnstalleerd voor particulieren en bedrijven in de regio Rotterdam.',
+                phone: '010 - 123 45 67',
+                email: 'info@voltwerk.nl',
+                address: 'Voorbeeldstraat 123, 3012 AB Rotterdam',
+                openingHours: 'Ma-Vr: 08:00 - 18:00\n24/7 spoedhulp beschikbaar'
+            };
+
+            Object.keys(defaults).forEach(key => {
+                const value = localStorage.getItem(key) || defaults[key];
+                const element = document.getElementById(key);
+                if (element) {
+                    element.value = value;
+                }
+                if (key.includes('Color') && !key.includes('Hex')) {
+                    document.getElementById(key + 'Hex').value = value;
+                }
+            });
+        }
+
+        // Save all changes
+        function saveAllChanges() {
+            const fields = [
+                'bedrijfsnaam', 'primaryColor', 'accentColor',
+                'heroTitle', 'heroSubtitle', 'heroButton',
+                'service1Title', 'service1Desc', 'service2Title', 'service2Desc',
+                'service3Title', 'service3Desc',
+                'aboutTitle', 'aboutText1', 'aboutText2',
+                'project1Title', 'project1Desc', 'project2Title', 'project2Desc',
+                'project3Title', 'project3Desc',
+                'phone', 'email', 'address', 'openingHours'
+            ];
+
+            // Save all fields to localStorage
+            fields.forEach(field => {
+                const element = document.getElementById(field);
+                if (element) {
+                    localStorage.setItem(field, element.value);
+                }
+            });
+
+            // Save services array
+            const services = [
+                {
+                    icon: '🔌',
+                    title: document.getElementById('service1Title').value,
+                    description: document.getElementById('service1Desc').value
+                },
+                {
+                    icon: '💡',
+                    title: document.getElementById('service2Title').value,
+                    description: document.getElementById('service2Desc').value
+                },
+                {
+                    icon: '⚡',
+                    title: document.getElementById('service3Title').value,
+                    description: document.getElementById('service3Desc').value
+                },
+                {
+                    icon: '🏠',
+                    title: 'Domotica',
+                    description: 'Maak uw huis slim met moderne domotica oplossingen. Bedien alles vanaf uw smartphone.'
+                },
+                {
+                    icon: '🔋',
+                    title: 'Laadpalen',
+                    description: 'Installatie van laadpalen voor elektrische auto\'s. Thuis laden op de voordeligste manier.'
+                },
+                {
+                    icon: '🔍',
+                    title: 'Keuringen & Inspecties',
+                    description: 'NEN1010 keuringen en periodieke inspecties. Blijf conform de wet- en regelgeving.'
+                }
+            ];
+            localStorage.setItem('services', JSON.stringify(services));
+
+            // Save projects array
+            const projects = [
+                {
+                    icon: '🏢',
+                    title: document.getElementById('project1Title').value,
+                    description: document.getElementById('project1Desc').value
+                },
+                {
+                    icon: '🏡',
+                    title: document.getElementById('project2Title').value,
+                    description: document.getElementById('project2Desc').value
+                },
+                {
+                    icon: '🔌',
+                    title: document.getElementById('project3Title').value,
+                    description: document.getElementById('project3Desc').value
+                }
+            ];
+            localStorage.setItem('projects', JSON.stringify(projects));
+
+            // Save features
+            const features = [
+                'Gecertificeerde en ervaren elektriciens',
+                '24/7 bereikbaar voor spoedgevallen',
+                'Transparante prijzen, geen verborgen kosten',
+                'Netjes en volgens afspraak',
+                'Garantie op al onze werkzaamheden',
+                'Gratis advies en offerte op maat'
+            ];
+            localStorage.setItem('features', JSON.stringify(features));
+
+            // Show success message
+            const successMsg = document.getElementById('successMessage');
+            successMsg.classList.add('show');
+            setTimeout(() => {
+                successMsg.classList.remove('show');
+            }, 5000);
+        }
+    </script>
+</body>
+</html>
